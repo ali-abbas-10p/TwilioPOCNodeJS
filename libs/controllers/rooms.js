@@ -12,3 +12,18 @@ exports.authenticate = async (ctx, next) => {
     ctx.state.data = {token:token.toJwt()};
     await next();
 };
+
+
+exports.getRooms = async (ctx, next) => {
+    const client = ctx.state.client;
+    const rooms = await client.video.rooms.list();
+    ctx.state.data = rooms;
+    await next();
+};
+
+exports.createRooms = async(ctx,next)=>{
+    const client = ctx.state.client;
+    const room = await client.video.rooms.create({uniqueName:ctx.request.body.uniqueName});
+    ctx.state.data = room;
+    await next();
+};
