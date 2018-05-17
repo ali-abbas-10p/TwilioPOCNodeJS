@@ -16,14 +16,19 @@ exports.authenticate = async (ctx, next) => {
 
 exports.getRooms = async (ctx, next) => {
     const client = ctx.state.client;
-    const rooms = await client.video.rooms.list();
-    ctx.state.data = rooms;
+    ctx.state.data = await client.video.rooms.list();
     await next();
 };
 
 exports.createRooms = async(ctx,next)=>{
     const client = ctx.state.client;
-    const room = await client.video.rooms.create({uniqueName:ctx.request.body.uniqueName});
-    ctx.state.data = room;
+    try {
+        ctx.state.data = await client.video.rooms.create({uniqueName: ctx.request.body.uniqueName});
+    }
+    catch (err){
+        ctx.state.status = err.status;
+        ctx.state.message = err.message;
+        ctx.state.data = {};
+    }
     await next();
 };

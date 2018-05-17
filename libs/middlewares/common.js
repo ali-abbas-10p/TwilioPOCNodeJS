@@ -7,21 +7,18 @@ exports.jsonContentType = async (ctx,next)=>{
 
 exports.printResponse = async (ctx,next)=>{
     if(ctx.state.data) {
-        ctx.status = 200;
-        const status = 200;
-        const msg = 'success';
+        ctx.status = ctx.state.status?ctx.state.status === 204?200:ctx.state.status:200;
         ctx.body = {
-            "meta-data":{
-                statusCode:status,
-                message:msg
+            "meta-data": {
+                statusCode: ctx.state.status ? ctx.state.status : 200,
+                message: ctx.state.message ? ctx.state.message : 'success'
             },
-            data:ctx.state.data
+            data: _.isEmpty(ctx.state.data) ? undefined : ctx.state.data
         };
     }
     else
         await next()
 };
-
 
 
 exports.getClient = async (ctx ,next)=> {
