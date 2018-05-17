@@ -28,7 +28,8 @@
     "lodash": "4.17.5",
     "moment": "2.22.0",
     "mysql": "2.15.0",
-    "randomstring": "1.1.5"
+    "randomstring": "1.1.5",
+    "twilio": "^3.17.0"
   },
   "devDependencies": {
     "nodemon": "1.17.3"
