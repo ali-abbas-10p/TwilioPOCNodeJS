@@ -17,6 +17,11 @@ exports.authenticate = async (ctx, next) => {
 exports.getRooms = async (ctx, next) => {
     const client = ctx.state.client;
     ctx.state.data = await client.video.rooms.list();
+    if(_.isEmpty(ctx.state.data))
+    {
+        ctx.state.status=204;
+        ctx.state.message='No rooms found';
+    }
     await next();
 };
 
